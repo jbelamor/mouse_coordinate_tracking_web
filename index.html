@@ -111,17 +111,26 @@
         };
 
         document.getElementById("download").onclick = () => {
-            const blob = new Blob(
+            // 1. Descargar coordenadas (JSON)
+            const coordsBlob = new Blob(
                 [JSON.stringify(points, null, 2)],
                 { type: "application/json" }
             );
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "coordinates.json";
-            a.click();
-            URL.revokeObjectURL(url);
+            const coordsUrl = URL.createObjectURL(coordsBlob);
+            const coordsLink = document.createElement("a");
+            coordsLink.href = coordsUrl;
+            coordsLink.download = "coordinates.json";
+            coordsLink.click();
+            URL.revokeObjectURL(coordsUrl);
+
+            // 2. Descargar imagen del canvas (PNG)
+            const imageUrl = canvas.toDataURL("image/png");
+            const imageLink = document.createElement("a");
+            imageLink.href = imageUrl;
+            imageLink.download = "drawing.png";
+            imageLink.click();
         };
+
     </script>
 
 </body>
