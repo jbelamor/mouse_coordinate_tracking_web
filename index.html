@@ -126,7 +126,21 @@
         };
         document.getElementById("downloadImage").onclick = () => {
             // 2. Descargar imagen del canvas (PNG)
-            const imageUrl = canvas.toDataURL("image/png");
+            const tempCanvas = document.createElement("canvas");
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+
+            const tempCtx = tempCanvas.getContext("2d");
+
+            // Fondo blanco
+            tempCtx.fillStyle = "#ffffff";
+            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+            // Dibujar el canvas original encima
+            tempCtx.drawImage(canvas, 0, 0);
+
+            // 3. Descargar imagen PNG
+            const imageUrl = tempCanvas.toDataURL("image/png");
             const imageLink = document.createElement("a");
             imageLink.href = imageUrl;
             imageLink.download = "drawing.png";
